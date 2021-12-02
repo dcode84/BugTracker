@@ -1,4 +1,4 @@
-﻿using BugtrackerAPI.DTOs;
+﻿using BugtrackerAPI.DTOs.User;
 using Microsoft.AspNetCore.Mvc;
 using BugtrackerAPI.Extensions;
 
@@ -15,7 +15,6 @@ public class UsersController : ControllerBase
         _data = data;
     }
 
-
     // GET /users
     [HttpGet()]
     public async Task<ActionResult<IEnumerable<UserDto>>> GetUsersAsync()
@@ -23,7 +22,7 @@ public class UsersController : ControllerBase
         var users = await _data.GetUsersAsync();
             if (users == null) return NotFound();
 
-        var userlist = users.Select(user => user.AsDto());
+        var userlist = users.Select(user => user.UserAsDto());
 
         return Ok(userlist);
     }
@@ -62,7 +61,7 @@ public class UsersController : ControllerBase
 
         await _data.CreateUserAsync(user);
 
-        return CreatedAtAction(nameof(GetUserByNameAsync), new { username = user.Username }, user.AsDto());
+        return CreatedAtAction(nameof(GetUserByNameAsync), new { username = user.Username }, user.UserAsDto());
     }
 
     // PUT /users/{id}

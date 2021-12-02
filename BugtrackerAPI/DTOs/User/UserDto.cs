@@ -1,4 +1,4 @@
-﻿namespace BugtrackerAPI.DTOs;
+﻿namespace BugtrackerAPI.DTOs.User;
 
 public class UserDto
 {

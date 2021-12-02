@@ -1,10 +1,11 @@
-﻿using BugtrackerAPI.DTOs;
+﻿using BugtrackerAPI.DTOs.Author;
+using BugtrackerAPI.DTOs.User;
 
 namespace BugtrackerAPI.Extensions;
 
 public static class Extensions
 {
-    public static UserDto AsDto(this UserModel user)
+    public static UserDto UserAsDto(this UserModel user)
     {
         return new UserDto
         {
@@ -13,6 +14,16 @@ public static class Extensions
             DateCreated = user.DateCreated,
             IsValidated = user.IsValidated,
             ModifiedAt = user.ModifiedAt
+        };
+    }
+
+    public static AuthorDto AuthorAsDto(this AuthorModel author)
+    {
+        return new AuthorDto
+        {
+            FirstName = author.FirstName,
+            LastName = author.LastName,
+            ModifiedAt = author.ModifiedAt
         };
     }
 }

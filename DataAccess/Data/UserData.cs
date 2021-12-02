@@ -24,6 +24,13 @@ public class UserData : IUserData
         return results.FirstOrDefault();
     }
 
+    public async Task<UserModel?> GetUserByNameAsync(string username)
+    {
+        var results = await _db.LoadData<UserModel, dynamic>("sp_readUserByName", new { username });
+
+        return results.FirstOrDefault();
+    }
+
     public Task CreateUserAsync(UserModel user) =>
         _db.SaveData("sp_createUser",
             new
@@ -33,15 +40,15 @@ public class UserData : IUserData
             });
 
     public Task UpdateUserAsync(UserModel user) =>
-        _db.SaveData("sp_updateUser", new { userId = user.Id, username = user.Username, email = user.Email});
+        _db.SaveData("sp_updateUser", 
+            new 
+            { 
+                userId = user.Id, 
+                username = user.Username, 
+                email = user.Email
+            });
 
     public Task DeleteUserAsync(int id) =>
         _db.SaveData("sp_deleteUser", new { userId = id });
 
-    public async Task<UserModel?> GetUserByNameAsync(string username)
-    {
-        var results = await _db.LoadData<UserModel, dynamic>("sp_readUserByName", new { username });
-
-        return results.FirstOrDefault();
-    }
 }

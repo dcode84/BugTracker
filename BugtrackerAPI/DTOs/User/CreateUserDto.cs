@@ -1,12 +1,9 @@
 ﻿using System.ComponentModel.DataAnnotations;
 
-namespace BugtrackerAPI.DTOs;
+namespace BugtrackerAPI.DTOs.User;
 
-public class UpdateUserDto
+public class CreateUserDto
 {
-    [Required]
-    public int Id { get; init; }
-
     [Required]
     [MinLength(6)]
     [MaxLength(32)]

@@ -4,7 +4,9 @@ namespace DataAccess.Data.Interfaces;
 
 public interface IAuthorData
 {
-    Task<AuthorModel?> GetAuthor(int id);
-    Task<IEnumerable<AuthorModel>> GetAuthors();
-    Task UpdateAuthor(AuthorModel author);
+    Task<AuthorModel?> GetAuthorAsync(int id);
+    Task<IEnumerable<AuthorModel>> GetAuthorsAsync();
+    Task<AuthorModel?> GetAuthorByNameAsync(AuthorModel author);
+    Task CreateAuthorAsync(AuthorModel author);
+    Task UpdateAuthorAsync(AuthorModel author);
 }
