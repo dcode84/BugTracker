@@ -8,10 +8,12 @@ namespace BugtrackerAPI.Controllers;
 [Route("api/authors")]
 public class AuthorsController : ControllerBase
 {
+    private readonly ILogger<UsersController> _logger;
     private readonly IAuthorData _data;
 
-    public AuthorsController(IAuthorData data)
+    public AuthorsController(ILogger<UsersController> logger, IAuthorData data)
     {
+        _logger = logger;
         _data = data;
     }
 

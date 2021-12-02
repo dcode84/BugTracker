@@ -1,36 +1,55 @@
 ﻿using BugtrackerAPI;
+using Serilog;
+using Serilog.Events;
 
-//var builder = WebApplication.CreateBuilder(args);
+Log.Logger = new LoggerConfiguration()
+    .MinimumLevel.Override("Microsoft", LogEventLevel.Information)
+    .Enrich.FromLogContext()
+    .WriteTo.Console()
+    .CreateBootstrapLogger();
 
-//// Add services to the container.
-
-//builder.Services.AddControllers();
-//// Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
-//builder.Services.AddEndpointsApiExplorer();
-//builder.Services.AddSwaggerGen();
-//builder.Services.AddSingleton<IMySqlDataAccess, MySqlDataAccess>();
-//builder.Services.AddSingleton<IUserData, UserData>();
-//builder.Services.AddSingleton<IAuthorData, AuthorData>();
-//builder.Services.AddSingleton<ICommentData, CommentData>();
-//builder.Services.AddSingleton<ICredentialData, CredentialData>();
-//builder.Services.AddSingleton<IPostData, PostData>();
-//builder.Services.AddSingleton<IProjectData, ProjectData>();
-//builder.Services.AddSingleton<IProjectUserData, ProjectUserData>();
-//builder.Services.AddSingleton<IUserRoleData, UserRoleData>();
-
-var app = ApiServices.ConfigureDependencies(args);
-
-// Configure the HTTP request pipeline.
-if (app.Environment.IsDevelopment())
+try
 {
-    app.UseSwagger();
-    app.UseSwaggerUI();
+    Log.Information("Starting Host");
+
+    var app = ApiServices.ConfigureDependencies(args);
+
+    // Configure the HTTP request pipeline and log all HTTP requests
+    app.UseSerilogRequestLogging(configure =>
+    {
+        configure.MessageTemplate = "HTTP {RequestMethod} {RequestPath} ({UserId}) responded {StatusCode} in {Elapsed:0.0000}ms";
+    });
+
+    // Configure the HTTP request pipeline.
+    if (app.Environment.IsDevelopment())
+    {
+        app.UseSwagger();
+        app.UseSwaggerUI();
+    }
+
+    app.UseHttpsRedirection();
+
+    app.UseAuthorization();
+
+    app.MapControllers();
+
+    app.MapGet("/request-context", (IDiagnosticContext diagnosticContext) =>
+    {
+        // You can enrich the diagnostic context with custom properties.
+        // They will be logged with the HTTP request.
+        diagnosticContext.Set("UserId", "someone");
+    });
+
+    app.Run();
 }
+catch (Exception ex)
+{
+    Log.Fatal(ex, "Host terminated unexpectedly");
+    return 1;
+}
+finally
+{
+    Log.CloseAndFlush();
+}
+return 0;
 
-app.UseHttpsRedirection();
-
-app.UseAuthorization();
-
-app.MapControllers();
-
-app.Run();
