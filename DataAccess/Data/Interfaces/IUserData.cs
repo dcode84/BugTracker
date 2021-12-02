@@ -4,9 +4,10 @@ namespace DataAccess.Data.Interfaces;
 
 public interface IUserData
 {
-    Task CreateUser(UserModel user, AuthorModel author, CredentialModel credential);
-    Task DeleteUser(int id);
-    Task<UserModel?> GetUser(int id);
-    Task<IEnumerable<UserModel>> GetUsers();
-    Task UpdateUser(UserModel user);
+    Task CreateUserAsync(UserModel user);
+    Task DeleteUserAsync(int id);
+    Task<UserModel?> GetUserByNameAsync(string username);
+    Task<UserModel?> GetUserAsync(int id);
+    Task<IEnumerable<UserModel>> GetUsersAsync();
+    Task UpdateUserAsync(UserModel user);
 }

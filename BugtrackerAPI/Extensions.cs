@@ -8,10 +8,11 @@ public static class Extensions
     {
         return new UserDto
         {
-            UserName = user.Username,
+            Username = user.Username,
             Email = user.Email,
             DateCreated = user.DateCreated,
-            IsValidated = user.IsValidated
+            IsValidated = user.IsValidated,
+            ModifiedAt = user.ModifiedAt
         };
     }
 }
