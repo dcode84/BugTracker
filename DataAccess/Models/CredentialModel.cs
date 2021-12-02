@@ -11,6 +11,6 @@ public record CredentialModel
     public int Id { get; init; }
     public string PasswordSalt { get; init; }
     public string PasswordHash { get; init; }
-    public DateTimeOffset ModifiedAt { get; init; }
+    public DateTimeOffset? ModifiedAt { get; init; }
 
 }
