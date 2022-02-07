@@ -1,6 +1,6 @@
 ﻿namespace DataAccess.Models;
 
-public record CommentModel
+public record Comment
 {
     public int Id { get; init; }
     public string Body { get; init; }

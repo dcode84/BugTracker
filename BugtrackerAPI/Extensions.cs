@@ -5,7 +5,7 @@ namespace BugtrackerAPI.Extensions;
 
 public static class Extensions
 {
-    public static UserDto UserAsDto(this UserModel user)
+    public static UserDto UserAsDto(this User user)
     {
         return new UserDto
         {
@@ -17,7 +17,7 @@ public static class Extensions
         };
     }
 
-    public static AuthorDto AuthorAsDto(this AuthorModel author)
+    public static AuthorDto AuthorAsDto(this Author author)
     {
         return new AuthorDto
         {

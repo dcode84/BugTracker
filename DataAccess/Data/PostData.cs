@@ -14,17 +14,17 @@ public class PostData : IPostData
         _db = db;
     }
 
-    public Task<IEnumerable<PostModel>> GetPosts(int projectId) =>
-        _db.LoadData<PostModel, dynamic>("sp_readPosts", new { projectId });
+    public Task<IEnumerable<Post>> GetPosts(int projectId) =>
+        _db.LoadData<Post, dynamic>("sp_readPosts", new { projectId });
 
-    public async Task<PostModel?> GetPost(int id)
+    public async Task<Post?> GetPost(int id)
     {
-        var results = await _db.LoadData<PostModel, dynamic>("sp_readPost", new { postId = id });
+        var results = await _db.LoadData<Post, dynamic>("sp_readPost", new { postId = id });
 
         return results.FirstOrDefault();
     }
 
-    public Task CreatePost(PostModel post) =>
+    public Task CreatePost(Post post) =>
         _db.SaveData("sp_createPost", new
         {
             post.Title,
@@ -35,7 +35,7 @@ public class PostData : IPostData
             post.ModifiedBy
         });
 
-    public Task UpdatePost(PostModel post) =>
+    public Task UpdatePost(Post post) =>
         _db.SaveData("sp_updatePost", post);
 
     public Task DeletePost(int id) =>

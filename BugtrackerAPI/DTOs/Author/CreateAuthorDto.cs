@@ -2,7 +2,7 @@
 
 namespace BugtrackerAPI.DTOs.Author;
 
-public class CreateAuthorDto
+public record CreateAuthorDto
 {
     [Required]
     [MaxLength(64)]

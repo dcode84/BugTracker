@@ -14,20 +14,20 @@ public class CommentData : ICommentData
         _db = db;
     }
 
-    public Task<IEnumerable<CommentModel>> GetComments(PostModel post) =>
-        _db.LoadData<CommentModel, dynamic>("sp_readComments", new 
+    public Task<IEnumerable<Comment>> GetComments(Post post) =>
+        _db.LoadData<Comment, dynamic>("sp_readComments", new 
         {
             postId = post.Id
         });
 
-    public async Task<CommentModel?> GetComment(int commentId)
+    public async Task<Comment?> GetComment(int commentId)
     {
-        var results = await _db.LoadData<CommentModel, dynamic>("sp_readComment", new { commentId });
+        var results = await _db.LoadData<Comment, dynamic>("sp_readComment", new { commentId });
 
         return results.FirstOrDefault();
     }
 
-    public Task CreateComment(CommentModel comment) =>
+    public Task CreateComment(Comment comment) =>
         _db.SaveData("sp_createComment", new
         {
             body = comment.Body,
@@ -35,7 +35,7 @@ public class CommentData : ICommentData
             postId = comment.PostId
         });
 
-    public Task UpdateComment(UserModel user, CommentModel comment) =>
+    public Task UpdateComment(User user, Comment comment) =>
         _db.SaveData("sp_updateComment", new
         {
             userId = user.Id,

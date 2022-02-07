@@ -6,9 +6,9 @@ using System.Threading.Tasks;
 
 namespace DataAccess.Models;
 
-public record UserRoleModel
+public record Role
 {
-    public int UserId { get; init; }
-    public int RoleId { get; init; }
-
+    public int Id { get; init; }
+    public string Name { get; init; }
+    public string Description { get; init; }
 }

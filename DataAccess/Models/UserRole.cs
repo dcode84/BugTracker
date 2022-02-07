@@ -6,8 +6,9 @@ using System.Threading.Tasks;
 
 namespace DataAccess.Models;
 
-public record ProjectUserModel
+public record UserRole
 {
-    public int ProjectId { get; init; }
     public int UserId { get; init; }
+    public int RoleId { get; init; }
+
 }

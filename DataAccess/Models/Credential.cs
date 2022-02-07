@@ -6,9 +6,11 @@ using System.Threading.Tasks;
 
 namespace DataAccess.Models;
 
-public record IssueTypeModel
+public record Credential
 {
     public int Id { get; init; }
-    public string Name { get; init; }
-    public string Description { get; init; }
+    public string PasswordSalt { get; init; }
+    public string PasswordHash { get; init; }
+    public DateTimeOffset? ModifiedAt { get; init; }
+
 }

@@ -4,9 +4,9 @@ namespace DataAccess.Data.Interfaces;
 
 public interface ICommentData
 {
-    Task CreateComment(CommentModel comment);
+    Task CreateComment(Comment comment);
     Task DeleteComment(int commentId);
-    Task<CommentModel?> GetComment(int commentId);
-    Task<IEnumerable<CommentModel>> GetComments(PostModel post);
-    Task UpdateComment(UserModel user, CommentModel comment);
+    Task<Comment?> GetComment(int commentId);
+    Task<IEnumerable<Comment>> GetComments(Post post);
+    Task UpdateComment(User user, Comment comment);
 }

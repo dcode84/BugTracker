@@ -13,8 +13,8 @@ public class UserRoleData : IUserRoleData
         _db = db;
     }
 
-    public Task<IEnumerable<UserRoleModel>> GetUserRoles(int userId) =>
-        _db.LoadData<UserRoleModel, dynamic>("sp_readRoles", new { userId });
+    public Task<IEnumerable<UserRole>> GetUserRoles(int userId) =>
+        _db.LoadData<UserRole, dynamic>("sp_readRoles", new { userId });
 
     public Task CreateUserRole(int userId, int roleId) =>
         _db.SaveData("sp_createUserRole", new { userId, roleId });

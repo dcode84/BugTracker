@@ -14,19 +14,19 @@ public class AuthorData : IAuthorData
         _db = db;
     }
 
-    public Task<IEnumerable<AuthorModel>> GetAuthorsAsync() =>
-        _db.LoadData<AuthorModel, dynamic>("sp_readAuthors", new { });
+    public Task<IEnumerable<Author>> GetAuthorsAsync() =>
+        _db.LoadData<Author, dynamic>("sp_readAuthors", new { });
 
-    public async Task<AuthorModel?> GetAuthorAsync(int id)
+    public async Task<Author?> GetAuthorAsync(int id)
     {
-        var results = await _db.LoadData<AuthorModel, dynamic>("sp_readAuthor", new { authorId = id });
+        var results = await _db.LoadData<Author, dynamic>("sp_readAuthor", new { authorId = id });
 
         return results.FirstOrDefault();
     }
 
-    public async Task<AuthorModel?> GetAuthorByNameAsync(AuthorModel author)
+    public async Task<Author?> GetAuthorByNameAsync(Author author)
     {
-        var results = await _db.LoadData<AuthorModel, dynamic>("sp_readAuthorByName", 
+        var results = await _db.LoadData<Author, dynamic>("sp_readAuthorByName", 
             new 
             { 
                 firstname = author.FirstName,
@@ -36,7 +36,7 @@ public class AuthorData : IAuthorData
         return results.FirstOrDefault();
     }
 
-    public Task CreateAuthorAsync(AuthorModel author) =>
+    public Task CreateAuthorAsync(Author author) =>
         _db.SaveData("sp_createAuthor", new
         {
             firstname = author.FirstName,
@@ -44,7 +44,7 @@ public class AuthorData : IAuthorData
         });
 
 
-    public Task UpdateAuthorAsync(AuthorModel author) =>
+    public Task UpdateAuthorAsync(Author author) =>
         _db.SaveData("sp_updateAuthor", new
         {
             userId = author.Id,

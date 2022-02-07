@@ -14,13 +14,13 @@ public class CredentialData : ICredentialData
         _db = db;
     }
 
-    public async Task<CredentialModel?> GetCredential(int id)
+    public async Task<Credential?> GetCredential(int id)
     {
-        var results = await _db.LoadData<CredentialModel, dynamic>("sp_readCredential", new { userId = id });
+        var results = await _db.LoadData<Credential, dynamic>("sp_readCredential", new { userId = id });
 
         return results.FirstOrDefault();
     }
 
-    public Task UpdateCredential(CredentialModel credentials) =>
+    public Task UpdateCredential(Credential credentials) =>
         _db.SaveData("sp_updateCredentials", credentials);
 }

@@ -17,19 +17,18 @@ public class UsersController : ControllerBase
         _data = data;
     }
 
-    // GET /users
+    // GET /api/users
     [HttpGet()]
     public async Task<ActionResult<IEnumerable<UserDto>>> GetUsersAsync()
     {
         var users = await _data.GetUsersAsync();
-            if (users == null) return NotFound();
 
         var userlist = users.Select(user => user.UserAsDto());
 
         return Ok(userlist);
     }
 
-    // GET /users/{id}
+    // GET /api/users/{id}
     [HttpGet("{id}")]
     public async Task<ActionResult<UserDto>> GetUserAsync(int id)
     {
@@ -39,7 +38,7 @@ public class UsersController : ControllerBase
         return Ok(user);
     }
 
-    // GET /users/{username}
+    // GET /api/users/{username}
     [HttpGet("byUsername")]
     public async Task<ActionResult<UserDto>> GetUserByNameAsync(string username)
     {
@@ -49,13 +48,13 @@ public class UsersController : ControllerBase
         return Ok(user);
     }
 
-    // POST /users
+    // POST /api/users
     [HttpPost]
-    public async Task<ActionResult<UserDto>> CreateUserAsync(CreateUserDto createUser)
+    public async Task<ActionResult<UserDto>> CreateUserAsync([FromBody]CreateUserDto createUser)
     {
         if (!ModelState.IsValid) return BadRequest(ModelState);
 
-        UserModel user = new()
+        User user = new()
         {
             Username = createUser.Username,
             Email = createUser.Email
@@ -66,7 +65,7 @@ public class UsersController : ControllerBase
         return CreatedAtAction(nameof(GetUserByNameAsync), new { username = user.Username }, user.UserAsDto());
     }
 
-    // PUT /users/{id}
+    // PUT /api/users/{id}
     [HttpPut("{id}")]
     public async Task<ActionResult> UpdateUserAsync(UpdateUserDto user)
     {
@@ -76,7 +75,7 @@ public class UsersController : ControllerBase
 
         if (existingUser is null) return NotFound();
 
-        UserModel updatedUser = existingUser with
+        User updatedUser = existingUser with
         {
             Username = user.Username,
             Email = user.Email
@@ -87,7 +86,7 @@ public class UsersController : ControllerBase
         return NoContent();
     }
 
-    // DELETE /users/{id}
+    // DELETE /api/users/{id}
     [HttpDelete]
     public async Task<ActionResult> DeleteUserAsync(int id)
     {

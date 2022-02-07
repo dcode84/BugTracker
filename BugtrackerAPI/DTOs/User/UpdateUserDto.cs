@@ -2,7 +2,7 @@
 
 namespace BugtrackerAPI.DTOs.User;
 
-public class UpdateUserDto
+public record UpdateUserDto
 {
     [Required]
     public int Id { get; init; }

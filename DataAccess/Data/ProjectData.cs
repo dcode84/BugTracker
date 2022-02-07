@@ -14,17 +14,17 @@ public class ProjectData : IProjectData
         _db = db;
     }
 
-    public Task<IEnumerable<ProjectModel>> GetProjects() =>
-        _db.LoadData<ProjectModel, dynamic>("sp_readProjects", new { });
+    public Task<IEnumerable<Project>> GetProjects() =>
+        _db.LoadData<Project, dynamic>("sp_readProjects", new { });
 
-    public async Task<ProjectModel?> GetProject(int id)
+    public async Task<Project?> GetProject(int id)
     {
-        var results = await _db.LoadData<ProjectModel, dynamic>("sp_readProject", new { projectId = id });
+        var results = await _db.LoadData<Project, dynamic>("sp_readProject", new { projectId = id });
 
         return results.FirstOrDefault();
     }
 
-    public Task CreateProject(ProjectModel project) =>
+    public Task CreateProject(Project project) =>
         _db.SaveData("sp_createProject", new
         {
             project.Id,
@@ -32,7 +32,7 @@ public class ProjectData : IProjectData
             project.Description
         });
 
-    public Task UpdateProject(ProjectModel project) =>
+    public Task UpdateProject(Project project) =>
         _db.SaveData("sp_updateProject", project);
 
     public Task DeleteProject(int id) =>

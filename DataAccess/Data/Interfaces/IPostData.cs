@@ -4,9 +4,9 @@ namespace DataAccess.Data.Interfaces;
 
 public interface IPostData
 {
-    Task CreatePost(PostModel post);
+    Task CreatePost(Post post);
     Task DeletePost(int id);
-    Task<PostModel?> GetPost(int id);
-    Task<IEnumerable<PostModel>> GetPosts(int projectId);
-    Task UpdatePost(PostModel post);
+    Task<Post?> GetPost(int id);
+    Task<IEnumerable<Post>> GetPosts(int projectId);
+    Task UpdatePost(Post post);
 }

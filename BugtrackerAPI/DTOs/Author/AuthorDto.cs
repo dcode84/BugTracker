@@ -1,6 +1,6 @@
 ﻿namespace BugtrackerAPI.DTOs.Author;
 
-public class AuthorDto
+public record AuthorDto
 {
     public string FirstName { get; init; }
     public string LastName { get; init; }

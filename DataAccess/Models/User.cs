@@ -1,6 +1,6 @@
 ﻿namespace DataAccess.Models;
 
-public record UserModel
+public record User
 {
     public int Id { get; init; }
     public string Username { get; init; }

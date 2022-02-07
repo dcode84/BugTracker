@@ -14,24 +14,24 @@ public class UserData : IUserData
         _db = db;
     }
 
-    public Task<IEnumerable<UserModel>> GetUsersAsync() =>
-        _db.LoadData<UserModel, dynamic>("sp_readUsers", new { });
+    public Task<IEnumerable<User>> GetUsersAsync() =>
+        _db.LoadData<User, dynamic>("sp_readUsers", new { });
 
-    public async Task<UserModel?> GetUserAsync(int id)
+    public async Task<User?> GetUserAsync(int id)
     {
-        var results = await _db.LoadData<UserModel, dynamic>("sp_readUser", new { userId = id });
+        var results = await _db.LoadData<User, dynamic>("sp_readUser", new { userId = id });
 
         return results.FirstOrDefault();
     }
 
-    public async Task<UserModel?> GetUserByNameAsync(string username)
+    public async Task<User?> GetUserByNameAsync(string username)
     {
-        var results = await _db.LoadData<UserModel, dynamic>("sp_readUserByName", new { username });
+        var results = await _db.LoadData<User, dynamic>("sp_readUserByName", new { username });
 
         return results.FirstOrDefault();
     }
 
-    public Task CreateUserAsync(UserModel user) =>
+    public Task CreateUserAsync(User user) =>
         _db.SaveData("sp_createUser",
             new
             {
@@ -39,7 +39,7 @@ public class UserData : IUserData
                 user.Email
             });
 
-    public Task UpdateUserAsync(UserModel user) =>
+    public Task UpdateUserAsync(User user) =>
         _db.SaveData("sp_updateUser", 
             new 
             { 

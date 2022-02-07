@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace DataAccess.Models;
 
-public record RoleModel
+public record IssueType
 {
     public int Id { get; init; }
     public string Name { get; init; }

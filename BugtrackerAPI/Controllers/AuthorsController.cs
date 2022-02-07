@@ -43,7 +43,7 @@ public class AuthorsController : ControllerBase
     [HttpGet("byName")]
     public async Task<ActionResult<AuthorDto>> GetAuthorByNameAsync(string firstName, string lastName)
     {
-        AuthorModel author = new()
+        Author author = new()
         {
             FirstName = firstName,
             LastName = lastName
@@ -61,7 +61,7 @@ public class AuthorsController : ControllerBase
     {
         if(!ModelState.IsValid) return BadRequest(ModelState);
 
-        AuthorModel author = new()
+        Author author = new()
         {
             FirstName = createAuthor.FirstName,
             LastName = createAuthor.LastName
@@ -83,7 +83,7 @@ public class AuthorsController : ControllerBase
         var existingAuthor = await _data.GetAuthorAsync(author.Id);
             if (existingAuthor is null) return NotFound();
 
-        AuthorModel updatedAuthor = existingAuthor with
+        Author updatedAuthor = existingAuthor with
         {
             FirstName = author.FirstName,
             LastName = author.LastName
