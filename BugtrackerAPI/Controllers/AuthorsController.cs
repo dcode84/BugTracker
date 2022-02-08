@@ -8,16 +8,16 @@ namespace BugtrackerAPI.Controllers;
 [Route("api/authors")]
 public class AuthorsController : ControllerBase
 {
-    private readonly ILogger<UsersController> _logger;
+    private readonly ILogger<AuthorsController> _logger;
     private readonly IAuthorData _data;
 
-    public AuthorsController(ILogger<UsersController> logger, IAuthorData data)
+    public AuthorsController(ILogger<AuthorsController> logger, IAuthorData data)
     {
         _logger = logger;
         _data = data;
     }
 
-    // GET authors
+    // GET api/authors
     [HttpGet]
     public async Task<ActionResult<IEnumerable<AuthorDto>>> GetAuthorsAsync()
     {
@@ -29,30 +29,32 @@ public class AuthorsController : ControllerBase
         return Ok(authorsList);
     }
 
-    // GET authors/{id}
+    // GET /api/authors/{id}
     [HttpGet("{id}")]
     public async Task<ActionResult<AuthorDto>> GetAuthorAsync(int id)
     {
         var author = await _data.GetAuthorAsync(id);
-            if(author is null) return NotFound();
+
+        if (author is null) return NotFound();
 
         return Ok(author);
     }
 
-    // GET authors/{byLastName}
+    // GET api/authors/{byLastName}
     [HttpGet("byName")]
     public async Task<ActionResult<AuthorDto>> GetAuthorByNameAsync(string firstName, string lastName)
     {
-        Author author = new()
+        Author tmp = new()
         {
             FirstName = firstName,
             LastName = lastName
         };
 
-        var tmp = await _data.GetAuthorByNameAsync(author);
-            if (tmp is null) return NotFound();
+        var author = await _data.GetAuthorByNameAsync(tmp);
 
-        return Ok(tmp);
+        if (author is null) return NotFound();
+
+        return Ok(author);
     }
 
     // POST authors
@@ -78,10 +80,11 @@ public class AuthorsController : ControllerBase
     [HttpPut("{id}")]
     public async Task<ActionResult> UpdateAuthorAsync(UpdateAuthorDto author)
     {
-        if (!ModelState.IsValid) return BadRequest();
+        if (!ModelState.IsValid) return BadRequest(ModelState);
 
         var existingAuthor = await _data.GetAuthorAsync(author.Id);
-            if (existingAuthor is null) return NotFound();
+        
+        if (existingAuthor is null) return NotFound();
 
         Author updatedAuthor = existingAuthor with
         {
